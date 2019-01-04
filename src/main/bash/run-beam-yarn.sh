@@ -31,7 +31,7 @@ op=$(if [[ "$@" =~ (--operation=)([^ ]*) ]]; then echo "${BASH_REMATCH[2]}"; els
 
 case $op in
   run)
-    exec $(dirname $0)/run-class.sh $1 --config task.execute="bin/run-beam-container.sh $1" "$@"
+    exec $(dirname $0)/run-class.sh $1 --config task.execute="bin/run-beam-container.sh $1" "${@:2}"
   ;;
 
   kill)

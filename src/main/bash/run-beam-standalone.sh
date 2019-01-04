@@ -1,3 +1,4 @@
+#!/bin/bash
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,17 +16,6 @@
 # specific language governing permissions and limitations
 # under the License.
 
-# runner
-app.runner.class=org.apache.samza.runtime.LocalApplicationRunner
+[[ $JAVA_OPTS != *-Dlog4j.configuration* ]] && export JAVA_OPTS="$JAVA_OPTS -Dlog4j.configuration=file:$(dirname $0)/log4j-console.xml"
 
-# zk
-job.coordinator.factory=org.apache.samza.zk.ZkJobCoordinatorFactory
-job.coordinator.zk.connect=localhost:2181
-task.name.grouper.factory=org.apache.samza.container.grouper.task.GroupByContainerIdsFactory
-
-# default system
-job.default.system=kafka
-systems.kafka.samza.factory=org.apache.samza.system.kafka.KafkaSystemFactory
-systems.kafka.consumer.zookeeper.connect=localhost:2181
-systems.kafka.producer.bootstrap.servers=localhost:9092
-systems.kafka.default.stream.replication.factor=1
+exec $(dirname $0)/run-class.sh $1 --runner=org.apache.beam.runners.samza.SamzaRunner "${@:2}"

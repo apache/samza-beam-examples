@@ -18,13 +18,37 @@
         <format>tar.gz</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${basedir}</directory>
+            <includes>
+                <include>README*</include>
+                <include>LICENSE*</include>
+                <include>NOTICE*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/config</directory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+            <outputDirectory>config</outputDirectory>
+            <!-- filtered=true, so we do variable expansion so the yarn package path
+            always points to the correct spot on any machine -->
+            <filtered>true</filtered>
+        </fileSet>
+    </fileSets>
     <files>
         <file>
             <source>${basedir}/src/main/resources/log4j.xml</source>
             <outputDirectory>lib</outputDirectory>
         </file>
         <file>
-            <source>${basedir}/src/main/bash/run-beam-app.sh</source>
+            <source>${basedir}/src/main/bash/run-beam-yarn.sh</source>
+            <outputDirectory>bin</outputDirectory>
+        </file>
+        <file>
+            <source>${basedir}/src/main/bash/run-beam-standalone.sh</source>
             <outputDirectory>bin</outputDirectory>
         </file>
         <file>
@@ -45,6 +69,8 @@
             <outputDirectory>lib</outputDirectory>
             <includes>
                 <include>beam-runners-samza</include>
+                <include>org.apache.samza:samza-beam-examples</include>
+                <include>org.apache.samza:samza-log4j</include>
             </includes>
             <useTransitiveFiltering>true</useTransitiveFiltering>
         </dependencySet>

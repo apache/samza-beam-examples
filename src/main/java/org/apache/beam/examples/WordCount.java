@@ -54,11 +54,22 @@ import org.apache.beam.sdk.values.PCollection;
  *   4. Defining your own pipeline options
  * </pre>
  *
- * <p>To execute this pipeline with SamzaRunner:
+ * <p>To execute this example locally:
  *
  * <pre>{@code
  * $ mvn compile exec:java -Dexec.mainClass=org.apache.beam.examples.WordCount \
  *      -Dexec.args="--inputFile=pom.xml --output=counts --runner=SamzaRunner" -Psamza-runner
+ * }</pre>
+ *
+ * <p>To execute the example in distributed manner, use mvn to package it first:
+ * <pre>{@code
+ * $ mkdir -p deploy/examples
+ * $ mvn package && tar -xvf target/samza-beam-examples-0.1-dist.tar.gz -C deploy/examples/
+ * }</pre>
+ *
+ * <p>To execute this example in standalone with zookeeper:
+ * <pre>{@code
+ * $ deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.WordCount --configFilePath=$PWD/deploy/examples/config/word-count-standalone.properties --inputFile=pom.xml --output=word-counts.txt
  * }</pre>
  *
  */
