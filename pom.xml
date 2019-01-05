@@ -156,15 +156,20 @@
     <!-- Adds a dependency on the Beam Google Cloud Platform IO module. -->
     <dependency>
       <groupId>org.apache.beam</groupId>
-      <artifactId>beam-sdks-java-io-google-cloud-platform</artifactId>
+      <artifactId>beam-sdks-java-io-kafka</artifactId>
       <version>${beam.version}</version>
+      <exclusions>
+        <exclusion>  <!-- exclude kafka-clients -->
+          <groupId>org.apache.kafka</groupId>
+          <artifactId>kafka-clients</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.apache.beam</groupId>
       <artifactId>beam-runners-samza</artifactId>
       <version>${beam.version}</version>
-      <scope>runtime</scope>
     </dependency>
 
     <dependency>

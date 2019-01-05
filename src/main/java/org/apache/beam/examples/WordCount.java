@@ -55,7 +55,6 @@ import org.apache.beam.sdk.values.PCollection;
  * </pre>
  *
  * <p>To execute this example locally:
- *
  * <pre>{@code
  * $ mvn compile exec:java -Dexec.mainClass=org.apache.beam.examples.WordCount \
  *      -Dexec.args="--inputFile=pom.xml --output=counts --runner=SamzaRunner" -Psamza-runner
