@@ -70,6 +70,7 @@
             <includes>
                 <include>beam-runners-samza</include>
                 <include>org.apache.samza:samza-beam-examples</include>
+                <include>org.apache.samza:samza-yarn_2.11</include>
                 <include>org.apache.samza:samza-log4j</include>
             </includes>
             <useTransitiveFiltering>true</useTransitiveFiltering>

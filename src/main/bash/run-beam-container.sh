@@ -31,4 +31,4 @@ cd $base_dir
 base_dir=`pwd`
 cd $home_dir
 
-exec $(dirname $0)/run-class.sh $1 --config-factory=org.apache.beam.runners.samza.container.ContainerCfgFactory --config-path=none --config app.runner.class=org.apache.beam.runners.samza.container.BeamContainerRunner "$@"
+exec $(dirname $0)/run-class.sh $1 --runner=org.apache.beam.runners.samza.SamzaRunner --configFactory=org.apache.beam.runners.samza.container.ContainerCfgFactory "${@:2}"

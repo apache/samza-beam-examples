@@ -61,16 +61,29 @@ import org.apache.beam.sdk.values.PCollection;
  * }</pre>
  *
  * <p>To execute the example in distributed manner, use mvn to package it first:
+ * (remove .waitUntilFinish() in the code for yarn deployment)
  * <pre>{@code
  * $ mkdir -p deploy/examples
  * $ mvn package && tar -xvf target/samza-beam-examples-0.1-dist.tar.gz -C deploy/examples/
  * }</pre>
  *
  * <p>To execute this example in standalone with zookeeper:
+ * (split the input by 2)
  * <pre>{@code
- * $ deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.WordCount --configFilePath=$PWD/deploy/examples/config/word-count-standalone.properties --inputFile=pom.xml --output=word-counts.txt
+ * $ deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.WordCount \
+ *     --configFilePath=$PWD/deploy/examples/config/standalone.properties \
+ *     --inputFile=/Users/xiliu/opensource/samza-beam-examples/pom.xml --output=word-counts.txt \
+ *     --maxSourceParallelism=2
  * }</pre>
  *
+ * <p>To execute this example in yarn:
+ * (split the input by 2)
+ * <pre>{@code
+ * $ deploy/examples/bin/run-beam-yarn.sh org.apache.beam.examples.WordCount \
+ *     --configFilePath=$PWD/deploy/examples/config/yarn.properties \
+ *     --inputFile=/Users/xiliu/opensource/samza-beam-examples/pom.xml \
+ *     --output=/tmp/word-counts.txt --maxSourceParallelism=2
+ * }</pre>
  */
 public class WordCount {
   private static final String TOKENIZER_PATTERN = "[^\\p{L}]+";
@@ -174,6 +187,9 @@ public class WordCount {
         .apply(MapElements.via(new FormatAsTextFn()))
         .apply("WriteCounts", TextIO.write().to(options.getOutput()).withoutSharding());
 
+    //For yarn, we don't need to wait after submitting the job,
+    //so there is no need for waitUntilFinish(). Please use
+    //p.run()
     p.run().waitUntilFinish();
   }
 
