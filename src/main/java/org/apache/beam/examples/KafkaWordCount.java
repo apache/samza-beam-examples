@@ -60,7 +60,7 @@ import org.joda.time.Duration;
  * <p>To execute the example in distributed manner, use mvn to package it first:
  * (remove .waitUntilFinish() in the code for yarn deployment)
  * <pre>{@code
- * $ mkdir -p deploy/exaSmples
+ * $ mkdir -p deploy/examples
  * $ mvn package && tar -xvf target/samza-beam-examples-0.1-dist.tar.gz -C deploy/examples/
  * }</pre>
  *
