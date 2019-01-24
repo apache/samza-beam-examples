@@ -62,8 +62,9 @@ $ scripts/grid start zookeeper
 You can run directly within the project using maven:
 
 ```
+$ mvn package
 $ mvn compile exec:java -Dexec.mainClass=org.apache.beam.examples.WordCount \
-    -Dexec.args="--runner=SamzaRunner" -P samza-runner
+    -Dexec.args="--inputFile=pom.xml --output=counts --runner=SamzaRunner" -P samza-runner
 ```
 
 ### Packaging Your Application
@@ -77,15 +78,15 @@ After packaging, we deploy and explode the tgz in the deploy folder:
 
 ### Standalone Cluster with Zookeeper
 You can use the `run-beam-standalone.sh` script included in this repo to run an example
-in standalone mode. The config file is provided as `config/standalone.properties`. Note by
-default we create one single input partition for the whole input. To set the number of 
+in standalone mode. The config file is provided as `config/standalone.properties`. Note that by
+default we create a single input partition for the whole input. To set the number of 
 partitions, you can add "--maxSourceParallelism=" argument. For example, "--maxSourceParallelism=2"
 will create two partitions of the input file, based on size.  
 
 ```
 $ deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.WordCount \
     --configFilePath=$PWD/deploy/examples/config/standalone.properties \
-    --inputFile=/Users/xiliu/opensource/samza-beam-examples/pom.xml --output=word-counts.txt \
+    --inputFile=$PWD/pom.xml --output=word-counts.txt \
     --maxSourceParallelism=2
 ```
 
@@ -101,13 +102,15 @@ $ deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.KafkaWordC
 
 ###  Yarn Cluster
 Similar to running standalone, we can use the `run-beam-yarn.sh` to run the examples
-in Yarn cluster. The config file is provided as `config/yarn.properties`. To run the 
-WordCount example in yarn:
+in Yarn cluster. The config file is provided as `config/yarn.properties`. 
+Note that for yarn, we don't need to wait after submitting the job, so there is no need for `waitUntilFinish()`. 
+Please change `p.run().waitUtilFinish()` to `p.run()` in the `WordCount.java` class.
+To run the WordCount example in yarn:
 
 ```
  $ deploy/examples/bin/run-beam-yarn.sh org.apache.beam.examples.WordCount \
     --configFilePath=$PWD/deploy/examples/config/yarn.properties \
-    --inputFile=/Users/xiliu/opensource/samza-beam-examples/pom.xml \
+    --inputFile=$PWD/pom.xml \
     --output=/tmp/word-counts.txt --maxSourceParallelism=2
 ```
 

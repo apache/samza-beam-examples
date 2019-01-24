@@ -70,18 +70,21 @@ import org.apache.beam.sdk.values.PCollection;
  * <p>To execute this example in standalone with zookeeper:
  * (split the input by 2)
  * <pre>{@code
- * $ deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.WordCount \
+ * $ ./deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.WordCount \
  *     --configFilePath=$PWD/deploy/examples/config/standalone.properties \
- *     --inputFile=/Users/xiliu/opensource/samza-beam-examples/pom.xml --output=word-counts.txt \
+ *     --inputFile=$PWD/pom.xml --output=word-counts.txt \
  *     --maxSourceParallelism=2
  * }</pre>
  *
  * <p>To execute this example in yarn:
+ * For yarn, we don't need to wait after submitting the job, so there is no need for
+ * waitUntilFinish(). Please change p.run().waitUtilFinish() to p.run().
+ *
  * (split the input by 2)
  * <pre>{@code
- * $ deploy/examples/bin/run-beam-yarn.sh org.apache.beam.examples.WordCount \
+ * $ ./deploy/examples/bin/run-beam-yarn.sh org.apache.beam.examples.WordCount \
  *     --configFilePath=$PWD/deploy/examples/config/yarn.properties \
- *     --inputFile=/Users/xiliu/opensource/samza-beam-examples/pom.xml \
+ *     --inputFile=$PWD/pom.xml \
  *     --output=/tmp/word-counts.txt --maxSourceParallelism=2
  * }</pre>
  */
@@ -187,10 +190,10 @@ public class WordCount {
         .apply(MapElements.via(new FormatAsTextFn()))
         .apply("WriteCounts", TextIO.write().to(options.getOutput()).withoutSharding());
 
-    //For yarn, we don't need to wait after submitting the job,
-    //so there is no need for waitUntilFinish(). Please use
-    //p.run()
-    p.run().waitUntilFinish();
+    // For yarn, we don't need to wait after submitting the job,
+    // so there is no need for waitUntilFinish(). Please use
+    // p.run()
+    p.run();
   }
 
   public static void main(String[] args) {
