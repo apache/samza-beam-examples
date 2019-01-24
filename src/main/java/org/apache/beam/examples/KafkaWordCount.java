@@ -67,13 +67,16 @@ import org.joda.time.Duration;
  * <p>To run in standalone with zookeeper:
  * (large parallelism will enforce each partition in a task)
  * <pre>{@code
- * $ deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.KafkaWordCount --configFilePath=$PWD/deploy/examples/config/standalone.properties --maxSourceParallelism=1024
+ * $ ./deploy/examples/bin/run-beam-standalone.sh org.apache.beam.examples.KafkaWordCount --configFilePath=$PWD/deploy/examples/config/standalone.properties --maxSourceParallelism=1024
  * }</pre>
  *
  * <p>To run in yarn:
+ * For yarn, we don't need to wait after submitting the job, so there is no need for
+ * waitUntilFinish(). Please change p.run().waitUtilFinish() to p.run().
+ *
  * (large parallelism will enforce each partition in a task)
  * <pre>{@code
- * $ deploy/examples/bin/run-beam-yarn.sh org.apache.beam.examples.KafkaWordCount --configFilePath=$PWD/deploy/examples/config/yarn.properties --maxSourceParallelism=1024
+ * $ ./deploy/examples/bin/run-beam-yarn.sh org.apache.beam.examples.KafkaWordCount --configFilePath=$PWD/deploy/examples/config/yarn.properties --maxSourceParallelism=1024
  * }</pre>
  *
  * <p>To produce some test data:
@@ -127,9 +130,9 @@ public class KafkaWordCount {
             .withKeySerializer(StringSerializer.class)
             .withValueSerializer(StringSerializer.class));
 
-    //For yarn, we don't need to wait after submitting the job,
-    //so there is no need for waitUntilFinish(). Please use
-    //p.run()
+    // For yarn, we don't need to wait after submitting the job,
+    // so there is no need for waitUntilFinish(). Please use
+    // p.run()
     p.run().waitUntilFinish();
   }
 }
