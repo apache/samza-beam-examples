@@ -29,11 +29,11 @@ mkdir -p $EXECUTION_PLAN_DIR
 
 op=$(if [[ "$@" =~ (--operation=)([^ ]*) ]]; then echo "${BASH_REMATCH[2]}"; else echo "run"; fi)
 
-cmd="{\"task.execute\":\"bin/run-beam-container.sh $@\"}"
+override="{\"task.execute\":\"bin/run-beam-container.sh $@\"}"
 
 case $op in
   run)
-    exec $(dirname $0)/run-class.sh $1 --runner=org.apache.beam.runners.samza.SamzaRunner --configOverride="$cmd" "${@:2}"
+    exec $(dirname $0)/run-class.sh $1 --runner=org.apache.beam.runners.samza.SamzaRunner --configOverride="$override" "${@:2}"
   ;;
 
   kill)
