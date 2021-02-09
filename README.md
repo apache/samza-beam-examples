@@ -73,7 +73,7 @@ You can run directly within the project using maven:
 
 ```
 $ mvn compile exec:java -Dexec.mainClass=org.apache.beam.examples.KafkaWordCount \
-    -Dexec.args="--runner=SamzaRunner" -P samza-runner
+    -Dexec.args="--runner=SamzaRunner --experiments=use_deprecated_read" -P samza-runner
 ```
 
 #### Packaging Your Application

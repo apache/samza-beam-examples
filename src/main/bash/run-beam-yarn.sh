@@ -33,7 +33,7 @@ override="{\"task.execute\":\"bin/run-beam-container.sh $@\"}"
 
 case $op in
   run)
-    exec $(dirname $0)/run-class.sh $1 --runner=org.apache.beam.runners.samza.SamzaRunner --configOverride="$override" "${@:2}"
+    exec $(dirname $0)/run-class.sh $1 --runner=org.apache.beam.runners.samza.SamzaRunner --configOverride="$override" --samzaExecutionEnvironment=YARN --experiments=use_deprecated_read "${@:2}"
   ;;
 
   kill)
